@@ -19,8 +19,8 @@ def cleanup(type, archivePath) -> None:
 
 def main():
     # Paths and list of files
-    vaultPath = "~/notes" # PATH TO VAULT
-    archivePath = "~/vault-backup" # PATH TO BACKUP DIRECTORY
+    vaultPath = os.path.expanduser("~/notes") # PATH TO VAULT
+    archivePath = os.path.expanduser("~/vault-backup") # PATH TO BACKUP DIRECTORY
 
     if not os.path.exists(vaultPath):
         os.mkdir(vaultPath)
