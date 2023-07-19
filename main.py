@@ -5,8 +5,9 @@ import datetime
 def move(type, date, archivePath) -> None:
     try:
         shutil.move(f"./{type}-{date}.tar.gz", archivePath)
+        print("Archive created!")
     except:
-        os.remove(f"./{type}{date}.tar.gz")
+        os.remove(f"./{type}-{date}.tar.gz")
         print("Already created a backup for today, try again tomorrow!")
     return
 
@@ -20,7 +21,7 @@ def cleanup(type, archivePath) -> None:
 def main():
     # Paths and list of files
     vaultPath = os.path.expanduser("~/notes") # PATH TO VAULT
-    archivePath = os.path.expanduser("~/vault-backup") # PATH TO BACKUP DIRECTORY
+    archivePath = os.path.expanduser("~/vault-archive") # PATH TO BACKUP DIRECTORY
 
     if not os.path.exists(vaultPath):
         os.mkdir(vaultPath)
