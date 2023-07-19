@@ -5,10 +5,10 @@ import datetime
 def move(type, date, archivePath) -> None:
     try:
         shutil.move(f"./{type}-{date}.tar.gz", archivePath)
-        print("Archive created!")
+        print(f"Archive created! {type}-{date}.tar.gz")
     except:
         os.remove(f"./{type}-{date}.tar.gz")
-        print("Already created a backup for today, try again tomorrow!")
+        print(f"Already created a backup for today, try again tomorrow! {type}-{date}.tar.gz")
     return
 
 def cleanup(type, archivePath) -> None:
