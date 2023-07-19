@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import shutil
 import datetime
+import time
 
 def move(type, date, archivePath) -> None:
     try:
@@ -21,9 +23,10 @@ def cleanup(type, archivePath) -> None:
             os.remove(death)
 
 def main():
-    # Paths and list of files
-    vaultPath = os.path.expanduser("~/notes") # PATH TO VAULT
-    archivePath = os.path.expanduser("~/vault-archive") # PATH TO BACKUP DIRECTORY
+    # Paths
+    with open(os.path.expanduser('~/.config/autoArchive/archivePaths.txt'),'r') as sys.stdin:
+        vaultPath = os.path.expanduser(input()) # PATH TO VAULT
+        archivePath = os.path.expanduser(input()) # PATH TO BACKUP DIRECTORY
 
     if not os.path.exists(vaultPath):
         os.mkdir(vaultPath)
@@ -33,7 +36,7 @@ def main():
 
     daily = 0
     monthly = 0
-
+    clean = ""
     date = datetime.date.today()
 
     for i in os.listdir(archivePath):
@@ -45,20 +48,21 @@ def main():
 
     if daily >= 30: # Check if it is time to create a monthly backup
         type = "monthly-archive"
-        shutil.make_archive(f"{type}-{date}", "gztar", vaultPath)
-        move(type, date, archivePath)
-        cleanup(type, archivePath)
-
+        clean = "daily archive"
     elif monthly >= 12: # Check if it is time to create an annual backup
         type = "annual-archive"
-        shutil.make_archive(f"{type}-{date}", "gztar", vaultPath)
-        move(type, date, archivePath)
-        cleanup(type, archivePath)
-
+        clean = "monthly-archive"
     else: # Otherwise create a daily backup
         type = "daily-archive"
-        shutil.make_archive(f"{type}-{date}", "gztar", vaultPath)
-        move(type, date, archivePath)
+
+    shutil.make_archive(f"{type}-{date}", "gztar", vaultPath)
+    move(type, date, archivePath)
+
+    if clean != "":
+        cleanup(clean, archivePath)
 
 if __name__ == "__main__":
+    start = time.time()
     main()
+    end = time.time()
+    print(f"Executed at: {datetime.datetime.now()} in {(end - start):.2f} seconds\n")

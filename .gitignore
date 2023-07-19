@@ -2,3 +2,4 @@ vault-backup
 notes
 *.tar.gz
 .DS_Store
+*.txt
