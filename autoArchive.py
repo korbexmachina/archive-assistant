@@ -71,4 +71,4 @@ if __name__ == "__main__":
     start = time.time()
     main()
     end = time.time()
-    print(f"Executed at: {datetime.datetime.now()} in {(end - start):.2f} seconds\n")
+    print(f"Executed at: {datetime.datetime.now()} in {(end - start):.2f} seconds\n") # Timestamp for debbuging
