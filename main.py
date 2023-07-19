@@ -2,60 +2,60 @@ import os
 import shutil
 import datetime
 
-# Paths and list of files
-vaultPath = "./notes" # PATH TO VAULT
-backupPath = "./vault-backup" # PATH TO BACKUP DIRECTORY
-
-if not os.path.exists(vaultPath):
-    os.mkdir(vaultPath)
-
-if not os.path.exists(backupPath):
-    os.mkdir(backupPath)
-
-daily = 0
-monthly = 0
-
-date = datetime.date.today()
-
-for i in os.listdir(backupPath):
-    # print(i)
-    if i.__contains__("daily-backup"):
-        daily += 1
-    if i.__contains__("monthly-backup"):
-        monthly += 1
-
-if daily >= 30: # Check if it is time to create a monthly backup
-    shutil.make_archive(f"monthly-backup-{date}", "gztar", vaultPath)
+def move(type, date, archivePath) -> None:
     try:
-        shutil.move(f"./monthly-backup-{date}.tar.gz", backupPath)
+        shutil.move(f"./{type}-{date}.tar.gz", archivePath)
     except:
-        os.remove(f"./monthly-backup-{date}.tar.gz")
+        os.remove(f"./{type}{date}.tar.gz")
         print("Already created a backup for today, try again tomorrow!")
+    return
 
+def cleanup(type, archivePath) -> None:
     # Delete the now outdated archives
-    for i in  os.listdir(backupPath):
-        if i.__contains__("monthly-backup"):
-            death = os.path.join(backupPath, i)
+    for i in  os.listdir(archivePath):
+        if i.__contains__(type):
+            death = os.path.join(archivePath, i)
             os.remove(death)
 
-elif monthly >= 12: # Check if it is time to create an annual backup
-    shutil.make_archive(f"annual-backup-{date}", "gztar", vaultPath)
-    try:
-        shutil.move(f"./annual-backup-{date}.tar.gz", backupPath)
-    except:
-        os.remove(f"./annual-backup-{date}.tar.gz")
-        print("Already created a backup for today, try again tomorrow!")
+def main():
+    # Paths and list of files
+    vaultPath = "./notes" # PATH TO VAULT
+    archivePath = "./vault-backup" # PATH TO BACKUP DIRECTORY
 
-    for i in os.listdir(backupPath):
-        if i.__contains__("monthly-backup"):
-            death = os.path.join(backupPath, i)
-            os.remove(death)
+    if not os.path.exists(vaultPath):
+        os.mkdir(vaultPath)
 
-else: # Otherwise create a daily backup
-    shutil.make_archive(f"daily-backup-{date}", "gztar", vaultPath)
-    try:
-        shutil.move(f"./daily-backup-{date}.tar.gz", backupPath)
-    except:
-        os.remove(f"./daily-backup-{date}.tar.gz")
-        print("Already created a backup for today, try again tomorrow!")
+    if not os.path.exists(archivePath):
+        os.mkdir(archivePath)
 
+    daily = 0
+    monthly = 0
+
+    date = datetime.date.today()
+
+    for i in os.listdir(archivePath):
+        # print(i)
+        if i.__contains__("daily-backup"):
+            daily += 1
+        elif i.__contains__("monthly-backup"):
+            monthly += 1
+
+    if daily >= 30: # Check if it is time to create a monthly backup
+        type = "monthly-archive"
+        shutil.make_archive(f"{type}-{date}", "gztar", vaultPath)
+        move(type, date, archivePath)
+        cleanup(type, archivePath)
+
+    elif monthly >= 12: # Check if it is time to create an annual backup
+        type = "annual-archive"
+        shutil.make_archive(f"{type}-{date}", "gztar", vaultPath)
+        move(type, date, archivePath)
+        cleanup(type, archivePath)
+
+    else: # Otherwise create a daily backup
+        type = "daily-archive"
+        shutil.make_archive(f"{type}-{date}", "gztar", vaultPath)
+        move(type, date, archivePath)
+
+if __name__ == "__main__":
+    main()
