@@ -2,28 +2,40 @@ import os
 import shutil
 import datetime
 
-path = os.getcwd()
-if not os.path.exists(path + "./vault-backup"):
-    os.mkdir(path + "./vault-backup")
-
 # Paths and list of files
-vaultPath = "~/notes"
-backupPath = "./vault-backup"
+vaultPath = "./notes" # PATH TO VAULT
+backupPath = "./vault-backup" # PATH TO BACKUP DIRECTORY
+
+if not os.path.exists(backupPath):
+    os.mkdir(backupPath)
 
 daily = 0
 monthly = 0
 
-for i in  os.listdir(backupPath):
+date = datetime.date.today()
+
+for i in os.listdir(backupPath):
     # print(i)
     if i.__contains__("daily-backup"):
         daily += 1
     if i.__contains__("monthly-backup"):
         monthly += 1
 
-if daily >= 30:
-    shutil.make_archive(f"daily-backup {datetime.date.today()}", 'tgz', vaultPath)
+if daily >= 30: # Check if it is time to create a monthly backup
+    shutil.make_archive(f"monthly-backup-{date}", "gztar", vaultPath)
+    # Delete the now outdated archives
     for i in  os.listdir(backupPath):
-        death = os.path.join(backupPath, i)
-        os.remove(death)
-if monthly >= 12:
-    shutil.make_archive(f"monthly-backup-{datetime.date.today()}", 'tgz', vaultPath)
+        if i.__contains__("monthly-backup"):
+            death = os.path.join(backupPath, i)
+            os.remove(death)
+elif monthly >= 12: # Check if it is time to create an annual backup
+    shutil.make_archive(f"annual-backup-{date}", "gztar", vaultPath)
+    shutil.move(f"./annual-backup-{date}", backupPath)
+    for i in os.listdir(backupPath):
+        if i.__contains__("monthly-backup"):
+            death = os.path.join(backupPath, i)
+            os.remove(death)
+else: # Otherwise create a daily backup
+    shutil.make_archive(f"daily-backup-{date}", "gztar", vaultPath)
+    shutil.move(f"./daily-backup-{date}", backupPath)
+
