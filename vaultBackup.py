@@ -26,19 +26,24 @@ for i in os.listdir(backupPath):
 
 if daily >= 30: # Check if it is time to create a monthly backup
     shutil.make_archive(f"monthly-backup-{date}", "gztar", vaultPath)
+    shutil.move(f"./monthly-backup-{date}.tar.gz", backupPath)
+
     # Delete the now outdated archives
     for i in  os.listdir(backupPath):
         if i.__contains__("monthly-backup"):
             death = os.path.join(backupPath, i)
             os.remove(death)
+
 elif monthly >= 12: # Check if it is time to create an annual backup
     shutil.make_archive(f"annual-backup-{date}", "gztar", vaultPath)
-    shutil.move(f"./annual-backup-{date}", backupPath)
+    shutil.move(f"./annual-backup-{date}.tar.gz", backupPath)
+
     for i in os.listdir(backupPath):
         if i.__contains__("monthly-backup"):
             death = os.path.join(backupPath, i)
             os.remove(death)
+
 else: # Otherwise create a daily backup
     shutil.make_archive(f"daily-backup-{date}", "gztar", vaultPath)
-    shutil.move(f"./daily-backup-{date}", backupPath)
+    shutil.move(f"./daily-backup-{date}.tar.gz", backupPath)
 
