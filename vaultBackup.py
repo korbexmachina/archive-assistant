@@ -6,6 +6,9 @@ import datetime
 vaultPath = "./notes" # PATH TO VAULT
 backupPath = "./vault-backup" # PATH TO BACKUP DIRECTORY
 
+if not os.path.exists(vaultPath):
+    os.mkdir(vaultPath)
+
 if not os.path.exists(backupPath):
     os.mkdir(backupPath)
 
