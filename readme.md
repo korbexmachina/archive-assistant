@@ -14,7 +14,7 @@ I use it for archiving my Obsidian Vault, but this script could be used to archi
     CONST_PATH = os.path.expanduser("~/.config/autoArchive/archivePaths.txt")
     ```
   
-  - I will probably add support for specifying this at runtime at some point
+    - I will probably add support for specifying this at runtime at some point
 - default archive format is `.tar.gz`
   - at some point I wil probably add support for specifying this at run time
 
