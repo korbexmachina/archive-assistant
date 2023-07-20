@@ -10,7 +10,7 @@ def move(type, date, archive_path) -> None:
     try:
         shutil.move(f"./{type}-{date}.tar.gz", archive_path)
         print(f"Archive created! {type}-{date}.tar.gz")
-    except:
+    except Exception:
         os.remove(f"./{type}-{date}.tar.gz")
         print(f"Already created an archive for today, try again tomorrow!\n{type}-{date}.tar.gz")
     return
