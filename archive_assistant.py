@@ -6,20 +6,20 @@ import shutil
 import datetime
 import time
 
-def move(type, date, archivePath) -> None:
+def move(type, date, archive_path) -> None:
     try:
-        shutil.move(f"./{type}-{date}.tar.gz", archivePath)
+        shutil.move(f"./{type}-{date}.tar.gz", archive_path)
         print(f"Archive created! {type}-{date}.tar.gz")
     except:
         os.remove(f"./{type}-{date}.tar.gz")
         print(f"Already created a backup for today, try again tomorrow! {type}-{date}.tar.gz")
     return
 
-def cleanup(type, archivePath) -> None:
+def cleanup(type, archive_path) -> None:
     # Delete the now outdated archives
-    for i in  os.listdir(archivePath):
+    for i in  os.listdir(archive_path):
         if i.__contains__(type):
-            death = os.path.join(archivePath, i)
+            death = os.path.join(archive_path, i)
             os.remove(death)
 
 def main():
@@ -31,21 +31,21 @@ def main():
 
     # Paths
     with open(os.path.expanduser('~/.config/autoArchive/archivePaths.txt'),'r') as sys.stdin:
-        vaultPath = os.path.expanduser(input()) # PATH TO VAULT
-        archivePath = os.path.expanduser(input()) # PATH TO BACKUP DIRECTORY
+        vault_path = os.path.expanduser(input()) # PATH TO VAULT
+        archive_path = os.path.expanduser(input()) # PATH TO BACKUP DIRECTORY
 
-    if not os.path.exists(vaultPath):
-        os.mkdir(vaultPath)
+    if not os.path.exists(vault_path):
+        os.mkdir(vault_path)
 
-    if not os.path.exists(archivePath):
-        os.mkdir(archivePath)
+    if not os.path.exists(archive_path):
+        os.mkdir(archive_path)
 
     daily = 0
     monthly = 0
     clean = ""
     date = datetime.date.today()
 
-    for i in os.listdir(archivePath):
+    for i in os.listdir(archive_path):
         # print(i)
         if i.__contains__("daily-archive"):
             daily += 1
@@ -61,14 +61,15 @@ def main():
     else: # Otherwise create a daily backup
         type = "daily-archive"
 
-    shutil.make_archive(f"{type}-{date}", "gztar", vaultPath)
-    move(type, date, archivePath)
+    shutil.make_archive(f"{type}-{date}", "gztar", vault_path)
+    move(type, date, archive_path)
 
     if clean != "":
-        cleanup(clean, archivePath)
+        cleanup(clean, archive_path)
 
 if __name__ == "__main__":
     start = time.time()
     main()
     end = time.time()
-    print(f"Executed at: {datetime.datetime.now()} in {(end - start):.2f} seconds\n") # Timestamp for debbuging
+    # Timestamp for debbuging
+    print(f"Executed at: {datetime.datetime.now()} in {(end - start):.2f} seconds\n")
