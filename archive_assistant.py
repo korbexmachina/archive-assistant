@@ -12,7 +12,7 @@ def move(type, date, archive_path) -> None:
         print(f"Archive created! {type}-{date}.tar.gz")
     except:
         os.remove(f"./{type}-{date}.tar.gz")
-        print(f"Already created a backup for today, try again tomorrow! {type}-{date}.tar.gz")
+        print(f"Already created an archive for today, try again tomorrow!\n{type}-{date}.tar.gz")
     return
 
 def cleanup(type, archive_path) -> None:
@@ -72,4 +72,5 @@ if __name__ == "__main__":
     main()
     end = time.time()
     # Timestamp for debbuging
-    print(f"Executed at: {datetime.datetime.now()} in {(end - start):.2f} seconds\n")
+    current_time = datetime.datetime.now()
+    print(f"Executed at: {current_time.time()} in [[ {(end - start):.2f} ]] seconds\n")
