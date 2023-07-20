@@ -1,4 +1,4 @@
-# Auto Archive
+# Archive Assistant
 
 A python script that automatically archives a directory and manages a directory of archives. Designed to run daily.
 
