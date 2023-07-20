@@ -30,7 +30,7 @@ def main():
         os.mkdir(CONST_PATH)
 
     # Paths
-    with open(os.path.expanduser('~/.config/autoArchive/archivePaths.txt'),'r') as sys.stdin:
+    with open(CONST_PATH,'r') as sys.stdin:
         vault_path = os.path.expanduser(input()) # PATH TO VAULT
         archive_path = os.path.expanduser(input()) # PATH TO BACKUP DIRECTORY
 
