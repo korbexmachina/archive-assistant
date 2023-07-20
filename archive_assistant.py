@@ -24,7 +24,7 @@ def cleanup(type, archive_path) -> None:
 
 def main():
 
-    CONST_PATH = os.path.expanduser("~/.config/autoArchive/archivePaths.txt") # The path to the config file that contains the paths
+    CONST_PATH = os.path.expanduser("~/.config/archive-assistant/archivePaths.txt") # The path to the config file that contains the paths
 
     if not os.path.exists(CONST_PATH):
         os.mkdir(CONST_PATH)
