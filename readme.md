@@ -2,7 +2,7 @@
 
 A python script that archives a directory and manages a directory of archives. Designed to run daily.
 
-I use it for archiving my Obsidian Vault, but this script could be used to archive whatever you want. It is set up to never exceed 1 archive per day, I personally have it set up with a cron job.
+I use it for archiving my Obsidian Vault, but this script could be used to archive whatever you want. It is set up to never exceed 1 archive per day, I personally have a cron job that runs once per day.
 
 ## What you need to know
 
@@ -15,12 +15,27 @@ I use it for archiving my Obsidian Vault, but this script could be used to archi
     ```
   
   - I will probably add support for specifying this at runtime at some point
-- default archive format is `.tar.gz`
-  - at some point I wil probably add support for specifying this at run time
+- Default archive format is `.zip`
+  - ~~At some point I wil probably add support for specifying this at run time~~
+  - There is now support for all of the standard formats providet by `shutil`
+    - Specify one of the following in your config file
+      - 0 = `.zip`
+      - 1 = `.tar` (uncompressed)
+      - 2 = `.tar.gz`
+      - 3 = `.tar.bz2`
+      - 4 = `.tar.xz`
 
 ### Example config:
 
 ```
 ~/notes
 ~/vault-archive
+2
 ```
+
+This example tells the program to archive the `~/notes` directory in the `~/vault-archive` directory using the `.tar.gz` format.
+
+## Roadmap
+
+- Migrate to a formatted config file, probably either yaml or toml
+- Specify the name of the config at runtime (to allow for use with multiple directories) __or__ allow an arbitrary number of directories to be added to a single config as a list
