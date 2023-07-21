@@ -4,3 +4,5 @@ notes
 .DS_Store
 *.txt
 archive
+*.yaml
+*.yml

@@ -46,10 +46,10 @@ def file_type(option) -> str:
 
 def main():
 
-    # CONST_PATH = os.path.expanduser("~/.config/archive-assistant/archivePaths.txt")
+    # CONST_PATH = os.path.expanduser("~/.config/archive-assistant/config.txt")
     # The path to the config file that contains the paths
 
-    CONST_PATH = os.path.expanduser("./archivePaths.txt") # Path for testing
+    CONST_PATH = os.path.expanduser("./archive-config.txt") # Path for testing
 
     if not os.path.exists(CONST_PATH):
         os.mkdir(CONST_PATH)
