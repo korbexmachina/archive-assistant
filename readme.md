@@ -7,11 +7,11 @@ I use it for archiving my Obsidian Vault, but this script could be used to archi
 ## What you need to know
 
 - You need to have a file that specifies the directory to be archived on the first line, and the directory that will be managed by the program.
-- The predefined path is `~/.config/autoArchive/archivePaths.txt`
+- The predefined path is `~/.config/archive-assistant/config.txt`
   - You can edit this in the file, and it should be the only thing you need to edit
 
     ```python
-    CONST_PATH = os.path.expanduser("~/.config/autoArchive/archivePaths.txt")
+    CONST_PATH = os.path.expanduser("~/.config/archive-assistant/config.txt")
     ```
   
   - I will probably add support for specifying this at runtime at some point
