@@ -39,3 +39,4 @@ This example tells the program to archive the `~/notes` directory in the `~/vaul
 
 - Migrate to a formatted config file, probably either yaml or toml
 - Specify the name of the config at runtime (to allow for use with multiple directories) __or__ allow an arbitrary number of directories to be added to a single config as a list
+  - If I end up implementing the second option, I may have the program handle separation of archives by creating and managing subdirectories with the name of the directory that is being archived
