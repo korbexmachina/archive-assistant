@@ -7,11 +7,11 @@ I use it for archiving my Obsidian Vault, but this script could be used to archi
 ## What you need to know
 
 - You need to have a file that specifies the directory to be archived on the first line, and the directory that will be managed by the program.
-- The predefined path is `~/.config/autoArchive/archivePaths.txt`
+- The predefined path is `~/.config/archive-assistant/config.txt`
   - You can edit this in the file, and it should be the only thing you need to edit
 
     ```python
-    CONST_PATH = os.path.expanduser("~/.config/autoArchive/archivePaths.txt")
+    CONST_PATH = os.path.expanduser("~/.config/archive-assistant/config.txt")
     ```
   
   - I will probably add support for specifying this at runtime at some point
@@ -43,3 +43,4 @@ This example tells the program to archive the `~/notes` directory in the `~/vaul
 
 - Migrate to a formatted config file, probably either yaml or toml
 - Specify the name of the config at runtime (to allow for use with multiple directories) __or__ allow an arbitrary number of directories to be added to a single config as a list
+  - If I end up implementing the second option, I may have the program handle separation of archives by creating and managing subdirectories with the name of the directory that is being archived
