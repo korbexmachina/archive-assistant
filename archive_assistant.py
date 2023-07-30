@@ -47,13 +47,13 @@ def file_type(option) -> str:
 
 def main():
 
-    # CONST_PATH = os.path.expanduser("~/.config/archive-assistant/config.yaml")
+    CONST_PATH = os.path.expanduser("~/.config/archive-assistant/config.yaml")
     # The path to the config file that contains the paths
 
-    CONST_PATH = os.path.expanduser("./config.yaml") # Path for testing
+    # CONST_PATH = os.path.expanduser("./config.yaml") # Path for testing
 
     if not os.path.exists(CONST_PATH):
-        template = {"vault_path": ["./notes", "./dev"], "archive_path": "./archive-assistant", "archive_option": 2} 
+        template = {"vault_path": ["~/notes", "~/dev"], "archive_path": "~/archive-assistant", "archive_option": 2} 
         with open(CONST_PATH, "w") as file:
             yaml.dump(template, file)
 
