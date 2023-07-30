@@ -5,6 +5,7 @@ import sys
 import shutil
 import datetime
 import time
+import yaml
 
 def move(type, date, archive_path) -> None:
     try:
@@ -46,54 +47,67 @@ def file_type(option) -> str:
 
 def main():
 
-    # CONST_PATH = os.path.expanduser("~/.config/archive-assistant/config.txt")
+    # CONST_PATH = os.path.expanduser("~/.config/archive-assistant/config.yaml")
     # The path to the config file that contains the paths
 
-    CONST_PATH = os.path.expanduser("./archive-config.txt") # Path for testing
+    CONST_PATH = os.path.expanduser("./config.yaml") # Path for testing
 
     if not os.path.exists(CONST_PATH):
-        os.mkdir(CONST_PATH)
+        template = {"vault_path": ["./notes", "./dev"], "archive_path": "./archive-assistant", "archive_option": 2} 
+        with open(CONST_PATH, "w") as file:
+            yaml.dump(template, file)
 
-    # Paths
-    with open(CONST_PATH,'r') as sys.stdin:
-        vault_path = os.path.expanduser(input()) # PATH TO VAULT
-        archive_path = os.path.expanduser(input()) # PATH TO BACKUP DIRECTORY
-        archive_option = int(input()) # TYPE OF ARCHIVE
+    # Load the config file
+    with open(CONST_PATH, "r") as info:
+        config_dict = yaml.safe_load(info)
+    
+    # print(config_dict)
 
-    if not os.path.exists(vault_path):
-        os.mkdir(vault_path)
+    archive_path = config_dict["archive_path"]
+    archive_option = config_dict["archive_option"]
 
-    if not os.path.exists(archive_path):
-        os.mkdir(archive_path)
+    for i in config_dict["vault_path"]:
+        vault_path = i
+        subdir = os.path.basename(os.path.normpath(i))
+        full_path = os.path.join(archive_path, subdir)
 
-    archive_format = file_type(archive_option)
+        if not os.path.exists(vault_path):
+            os.mkdir(vault_path)
 
-    daily = 0
-    monthly = 0
-    clean = ""
-    date = datetime.date.today()
+        if not os.path.exists(archive_path):
+            os.mkdir(archive_path)
 
-    for i in os.listdir(archive_path):
-        # print(i)
-        if i.__contains__("daily-archive"):
-            daily += 1
-        elif i.__contains__("monthly-archive"):
-            monthly += 1
+        if not os.path.exists(full_path):
+            os.mkdir(full_path)
 
-    if daily >= 30: # Check if it is time to create a monthly backup
-        type = "monthly-archive"
-        clean = "daily archive"
-    elif monthly >= 12: # Check if it is time to create an annual backup
-        type = "annual-archive"
-        clean = "monthly-archive"
-    else: # Otherwise create a daily backup
-        type = "daily-archive"
+        archive_format = file_type(archive_option)
 
-    shutil.make_archive(f"{type}-{date}", archive_format, vault_path)
-    move(type, date, archive_path)
+        daily = 0
+        monthly = 0
+        clean = ""
+        date = datetime.date.today()
 
-    if clean != "":
-        cleanup(clean, archive_path)
+        for i in os.listdir(full_path):
+            # print(i)
+            if i.__contains__("daily-archive"):
+                daily += 1
+            elif i.__contains__("monthly-archive"):
+                monthly += 1
+
+        if daily >= 30: # Check if it is time to create a monthly backup
+            type = "monthly-archive"
+            clean = "daily archive"
+        elif monthly >= 12: # Check if it is time to create an annual backup
+            type = "annual-archive"
+            clean = "monthly-archive"
+        else: # Otherwise create a daily backup
+            type = "daily-archive"
+
+        shutil.make_archive(f"{type}-{date}", archive_format, vault_path)
+        move(type, date, full_path)
+
+        if clean != "":
+            cleanup(clean, full_path)
 
 if __name__ == "__main__":
     start = time.time()

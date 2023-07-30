@@ -35,6 +35,10 @@ I use it for archiving my Obsidian Vault, but this script could be used to archi
 
 This example tells the program to archive the `~/notes` directory in the `~/vault-archive` directory using the `.tar.gz` format.
 
+## Requirements
+
+- [pyyaml](https://pyyaml.org/wiki/PyYAMLDocumentation)
+
 ## Roadmap
 
 - Migrate to a formatted config file, probably either yaml or toml
