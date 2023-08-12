@@ -4,6 +4,10 @@ A python script that archives a directory and manages a directory of archives. D
 
 I use it for archiving my Obsidian Vault, but this script could be used to archive whatever you want. It is set up to never exceed 1 archive per day, I personally have a cron job that runs once per day.
 
+## This project has been archived
+
+For something similar (and a little more advanced) check out [go-archive-it](https://github.com/korbexmachina/go-archive-it)
+
 ## What you need to know
 
 - You need to have a file that specifies the directory to be archived on the first line, and the directory that will be managed by the program.
